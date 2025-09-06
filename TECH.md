@@ -2,7 +2,27 @@
 
 ## Folder Structure:
 
-todo
+**mock/**
+
+- `questions.js` - questions array
+
+**modules/**
+
+- `Question.js` — Base class for all question types
+- `MultipleChoiceQuestion.js` — Multiple Choice Question with checkboxes (extends `Question`)
+- `SingleChoiceQuestion.js` — Single Choice Question with radio buttons (extends `Question`)
+- `Quiz.js` — Handles quiz state, questions, and score
+- `StorageManager.js` — Manages Local Storage interactions
+- `UIManager.js` — DOM manipulation and rendering logic
+
+**root/**
+
+- `index.html`
+- `style.css`
+- `script.js`
+- `TECH.md` — Technical Requirements
+- `diagram.png` - Project diagram
+- `utils.js` - Utility functions for theme management, UI state, event handling, and app initialization
 
 ### Requirements:
 
@@ -78,3 +98,114 @@ todo
   - If no active attempt or previous submission → start a fresh quiz
 
 ---
+
+## Classes: Technical details
+
+### Question (Base Class)
+
+- Properties:
+
+  - `id`
+  - `text`
+  - `options`
+  - `correctAnswer` (can be string or array)
+  - `userAnswer` (can be string or array)
+
+- Methods:
+  - `displayQuestion()`: generates question in the DOM
+  - `checkAnswer(answer)`: returns true if answer matches correctAnswer (handles both single and multiple answers)
+
+### MultipleChoiceQuestion (extends Question)
+
+- Properties: Inherits from Question
+- Methods:
+  - `displayQuestion()`: (Override) generates multiple-choice options with checkboxes in the DOM
+  - Allows multiple answers to be selected
+
+### SingleChoiceQuestion (extends Question)
+
+- Properties: Inherits from Question
+- Methods:
+  - `displayQuestion()`: (Override) generates single-choice options with radio buttons in the DOM
+  - Allows only one answer to be selected
+
+### Quiz
+
+- Properties:
+
+  - `questions[]`
+  - `answers` (object with questionId as key, answer/answers as value)
+  - `score`
+  - `attemptActive`
+
+- Methods:
+  - `loadQuestions(questionData)`: initializes questions
+  - `recordAnswer(questionId, answer)`: updates answers (handles both single values and arrays)
+  - `calculateScore()`: counts correct answers
+  - `isComplete()`: checks if all questions are answered (at least one option for multiple choice)
+
+### StorageManager
+
+- Properties:
+
+  - `#key`
+
+- Methods:
+  - `saveState(quizState)`: stores quiz state in localStorage
+  - `loadState()`: retrieves quiz state
+  - `clearState()`: clears quiz state
+
+### UiManager
+
+- Methods:
+  - `displayAllQuestions()`: renders all questions
+  - `updateSelection()`: updates UI on selection
+  - `showScore()`: displays score
+  - `showFeedback()`: displays pass/fail message
+  - `resetUI()`: clears selections and shows questions again
+
+### Class Relationships
+
+- Question (Base Class)
+
+  - Parent class for all question types
+  - Provides shared properties and methods
+  - Handles both single and multiple answer validation
+
+- MultipleChoiceQuestion
+
+  - Inherits from Question
+  - Overrides displayQuestion() to render checkboxes
+  - Supports multiple answer selection
+
+- SingleChoiceQuestion
+
+  - Inherits from Question
+  - Overrides displayQuestion() to render radio buttons
+  - Supports single answer selection
+
+- Quiz
+
+  - Contains an array of Question objects
+  - Manages quiz state and scoring
+  - Handles both single and multiple answer types
+
+- StorageManager
+
+  - Handles persistence of quiz state in localStorage
+
+- UiManager
+  - Responsible for rendering and DOM manipulation
+  - Handles both checkbox and radio button interactions
+
+#### Interactions:
+
+- Quiz controls the logic, StorageManager for persistence, and UiManager for rendering
+- Quiz contains Question objects (MultipleChoiceQuestion or SingleChoiceQuestion)
+- UiManager displays questions and updates based on user actions
+- StorageManager ensures quiz progress is saved and restored
+- After submission, only score/feedback is shown until reload
+
+#### Diagram:
+
+![diagram](./diagram.png)
