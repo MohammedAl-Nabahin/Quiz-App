@@ -8,12 +8,13 @@
 
 **modules/**
 
-- `Question.js` — Base class for all question types
-- `MultipleChoiceQuestion.js` — Multiple Choice Question with checkboxes (extends `Question`)
-- `SingleChoiceQuestion.js` — Single Choice Question with radio buttons (extends `Question`)
-- `Quiz.js` — Handles quiz state, questions, and score
-- `StorageManager.js` — Manages Local Storage interactions
-- `UIManager.js` — DOM manipulation and rendering logic
+- `Question.js` - Base class for all question types
+- `MultipleChoiceQuestion.js` - Multiple Choice Question with checkboxes (extends `Question`)
+- `SingleChoiceQuestion.js` - Single Choice Question with radio buttons (extends `Question`)
+- `Quiz.js` - Handles quiz state, questions, and score
+- `StorageManager.js` - Manages Local Storage interactions
+- `UIManager.js` - DOM manipulation and rendering logic
+- `Spinner.js` - Controls a loading spinner element
 
 **root/**
 
